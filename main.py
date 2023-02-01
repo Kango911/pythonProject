@@ -1,5 +1,8 @@
 from yahooparser import Ticker
 from prettytable import PrettyTable
+import pandas as pd
+from openpyxl import Workbook
+import openpyxl
 
 
 def get_tickers(ticker_list):
@@ -103,3 +106,18 @@ tickers = get_tickers(ticker_list)
 
 # -------- распечатаем для примера
 show_table(tickers)
+
+print(ticker_list)
+
+
+
+
+wb = openpyxl.load_workbook("file.xlsx")
+
+sheet = wb.active
+
+data = (ticker_list)
+
+for row in data:
+    sheet.append(row)
+wb.save("file.xlsx")
