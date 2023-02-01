@@ -38,12 +38,12 @@ def show_table(tickers):
     myTable = PrettyTable()
 
     # ----- создаем заголовки таблицы
-    myTable.field_names = ["Name", "Price", "Change", "Perc. change", "Volume"]
+    myTable.field_names = ["Имя", "Цена", "Изменение за день", "Процентное изменение"]
 
     # ----- добавляем строки в таблицу
     for string in show_list:
         for key in string:
-            myTable.add_row([key, string[key][0], string[key][1], string[key][2], string[key][3]])
+            myTable.add_row([key, string[key][0], string[key][1], string[key][2]])
     # печатаем таблицу с полученными значениями.
     print(myTable)
 
@@ -54,17 +54,47 @@ def show_table(tickers):
 # аналогичными именами, для которых будут запрошены
 # значения, после чего их можно использовать или распечатать
 # ----------------------------------------------------
-ticker_list = {'gazp': 'GAZP.ME',
-               'sber': 'SBER.ME',
-               'tatn': 'TATN.ME',
+ticker_list = {
+               'rstip': 'RSTIP.ME',
                'moex': 'MOEX.ME',
+               'plzl': 'PLZL.ME',
+               'poly': 'POLY.ME',
+               'banep': 'BANEP.ME',
+               'mrku': 'MRKU.ME',
+               'mtss': 'MTSS.ME',
+               'ogkb': 'OGKB.ME',
+               'gmkn': 'GMKN.ME',
+               'nvtk': 'NVTK.ME',
+               'posi': 'POSI.ME',
+               'tatnp': 'TATNP.ME',
                'rosn': 'ROSN.ME',
-               'lkoh': 'LKOH.ME',
+               'flot': 'FLOT.ME',
                'yndx': 'YNDX.ME',
+               'hhru': 'HHRU.ME',
                'nlmk': 'NLMK.ME',
+               'rtkmp': 'RTKMP.ME',
+               'fees': 'FEES.ME',
+               'sgzh': 'SGZH.ME',
+               'tatn': 'TATN.ME',
+               'gazp': 'GAZP.ME',
+               'sibn': 'SIBN.ME',
+               'chmf': 'CHMF.ME',
+               'sberp': 'SBERP.ME',
+               'sngsp': 'SNGSP.ME',
+               'irao': 'IRAO.ME',
+               'sber': 'SBER.ME',
+               'five': 'FIVE.ME',
+               'lkhon': 'LKOH.ME',
+               'dsky': 'DSKY.ME',
+               'tgka': 'TGKA.ME',
+               'aflt': 'AFLT.ME',
+               'afks': 'AFKS.ME',
+               'phor': 'PHOR.ME',
                'alrs': 'ALRS.ME',
-               'rual': 'RUAL.ME',
-               'magn': 'MAGN.ME'}
+               'magn': 'MAGN.ME',
+               'vsmo': 'VSMO.ME',
+               'trmk': 'TRMK.ME'
+               }
 # ----------------------------------------------------
 
 
