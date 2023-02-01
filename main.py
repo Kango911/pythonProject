@@ -38,7 +38,7 @@ def show_table(tickers):
     myTable = PrettyTable()
 
     # ----- создаем заголовки таблицы
-    myTable.field_names = ["Имя", "Цена", "Изменение за день", "Процентное изменение"]
+    myTable.field_names = ["Тикер", "Цена", "Изменение за день", "Процентное изменение"]
 
     # ----- добавляем строки в таблицу
     for string in show_list:
