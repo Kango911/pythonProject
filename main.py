@@ -1,51 +1,75 @@
-import urllib
-
-code = 'POLY';
-e = '.txt';
-market = '1'
-em = '175924';
-e = '.txt';
-p = '3';
-yf = '2017';
-yt = '2017';
-month_start = '05';
-day_start = '20';
-month_end = '06';
-day_end = '20';
-dtf = '1';
-tmf = '1';
-MSOR = '1';
-mstimever = '0'
-sep = '1';
-sep2 = '3';
-datf = '1';
-at = '1';
-
-year_start = yf[2:];
-year_end = yt[2:];
-mf = (int(month_start.replace('0', ''))) - 1;
-mt = (int(month_end.replace('0', ''))) - 1;
-df = (int(day_start.replace('0', ''))) - 1;
-dt = (int(day_end.replace('0', ''))) - 1;
+from yahooparser import Ticker
+from prettytable import PrettyTable
 
 
-def quotes(code, year_start, month_start, day_start, year_end, month_end, day_end, e, market, em, df, mf, yf, dt, mt,
-           yt, p, dtf, tmf, MSOR, mstimever, sep, sep2, datf, at):
-    page = urllib.urlopen(
-        'http://export.finam.ru/' + str(code) + '_' + str(year_start) + str(month_start) + str(day_start) + '_' + str(
-            year_end) + str(month_end) + str(day_end) + str(e) + '?market=' + str(market) + '&em=' + str(
-            em) + '&code=' + str(code) + '&apply=0&df=' + str(df) + '&mf=' + str(mf) + '&yf=' + str(
-            yf) + '&from=' + str(day_start) + '.' + str(month_start) + '.' + str(yf) + '&dt=' + str(dt) + '&mt=' + str(
-            mt) + '&yt=' + str(yt) + '&to=' + str(day_end) + '.' + str(month_end) + '.' + str(yt) + '&p=' + str(
-            p) + '&f=' + str(code) + '_' + str(year_start) + str(month_start) + str(day_start) + '_' + str(
-            year_end) + str(month_end) + str(day_end) + '&e=' + str(e) + '&cn=' + str(code) + '&dtf=' + str(
-            dtf) + '&tmf=' + str(tmf) + '&MSOR=' + str(MSOR) + '&mstimever=' + str(mstimever) + '&sep=' + str(
-            sep) + '&sep2=' + str(sep2) + '&datf=' + str(datf) + '&at=' + str(at))
-    f = open("company_quotes.txt", "w")
-    content = page.read()
-    f.write(content)
-    f.close()
+def get_tickers(ticker_list):
+    """
+    Создает экземпляры класса Ticker из полученного списка
+    :param ticker_list:  получает список тикеров
+    :return: возвращает список с экземплярами класса Ticker
+    """
+    tickers = []
+    for element in ticker_list:
+        name = ticker_list[element]
+        tickers.append(Ticker(name))
+
+    for name in range(len(tickers)):
+        tickers[name].update()
+    return tickers
 
 
-qq = quotes(code, year_start, month_start, day_start, year_end, month_end, day_end, e, market, em, df, mf, yf, dt, mt,
-            yt, p, dtf, tmf, MSOR, mstimever, sep, sep2, datf, at)
+def show_table(tickers):
+    """
+    Демонстрация полученных данных в ходе работы скрипта
+    :return: ничего не возвращает
+    """
+    # ----- считаем знрачения из класса в переменные
+    show_list = []
+    for ticker in tickers:
+        name = ticker.name
+        price = round(ticker.price, 2)
+        change = round(ticker.change, 2)
+        percent = round(ticker.percent * 100, 2)
+        volume = round(ticker.volume, 2)
+        # ----- создадим словарь со списком внутри
+        show_list.append({name: [price, change, percent, volume]})
+
+    # ----- эта простая табличка - очень крутая вещь
+    myTable = PrettyTable()
+
+    # ----- создаем заголовки таблицы
+    myTable.field_names = ["Name", "Price", "Change", "Perc. change", "Volume"]
+
+    # ----- добавляем строки в таблицу
+    for string in show_list:
+        for key in string:
+            myTable.add_row([key, string[key][0], string[key][1], string[key][2], string[key][3]])
+    # печатаем таблицу с полученными значениями.
+    print(myTable)
+
+
+# ----------------------------------------------------
+# в этот словарь можно добавить любые бумаги
+# после запуска скрипта создадутся объекты с
+# аналогичными именами, для которых будут запрошены
+# значения, после чего их можно использовать или распечатать
+# ----------------------------------------------------
+ticker_list = {'gazp': 'GAZP.ME',
+               'sber': 'SBER.ME',
+               'tatn': 'TATN.ME',
+               'moex': 'MOEX.ME',
+               'rosn': 'ROSN.ME',
+               'lkoh': 'LKOH.ME',
+               'yndx': 'YNDX.ME',
+               'nlmk': 'NLMK.ME',
+               'alrs': 'ALRS.ME',
+               'rual': 'RUAL.ME',
+               'magn': 'MAGN.ME'}
+# ----------------------------------------------------
+
+
+# -------- создаем экземпляры класса
+tickers = get_tickers(ticker_list)
+
+# -------- распечатаем для примера
+show_table(tickers)
